@@ -498,6 +498,10 @@
       </div>
       <!-- Hidden SL% for calculations -->
       <input type="hidden" id="c-sl-pct" value="1">
+      <!-- Reset Button -->
+      <button onclick="resetCalc()" style="width:100%;padding:9px;border-radius:7px;border:1px solid var(--border);background:var(--card);color:var(--text3);cursor:pointer;font-family:inherit;font-size:12px;margin-bottom:10px">
+        🔄 Felder zurücksetzen
+      </button>
       <!-- Exchange + Liquidation -->
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px">
         <div>
@@ -1642,10 +1646,21 @@ function onCalcInput(){
 }
 
 function onCalcCrypto(capital, riskUSDT, entry, set){
-  const slPct    = parseFloat(document.getElementById('c-sl-pct').value)||1;
   const rrTarget = parseFloat(document.getElementById('c-rr-target')?.value)||2;
   const leverage = parseFloat(document.getElementById('c-leverage').value)||1;
   const exchange = document.getElementById('c-exchange')?.value||'bybit';
+
+  // Get SL% — prefer calculated from SL price, fall back to hidden field
+  const slPrice  = parseFloat(document.getElementById('c-sl-price')?.value);
+  let slPct;
+  if(entry && slPrice && slPrice>0){
+    slPct = Math.abs((entry - slPrice) / entry * 100);
+    // Keep hidden field in sync
+    const hidden = document.getElementById('c-sl-pct');
+    if(hidden) hidden.value = slPct;
+  } else {
+    slPct = parseFloat(document.getElementById('c-sl-pct')?.value)||1;
+  }
 
   // Auto SL/TP from entry + slPct
   if(entry){
@@ -3261,6 +3276,23 @@ function calcForexPnL(tr){
 }
 
 // ── Calculator helpers ────────────────────────────────────────────────────────
+function resetCalc(){
+  ['c-entry','c-sl-price','c-tp-price','c-capital','c-risk-pct'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.value='';
+  });
+  const rr=document.getElementById('c-rr-target-display'); if(rr) rr.value='1:2';
+  const rrh=document.getElementById('c-rr-target'); if(rrh) rrh.value='2';
+  const lev=document.getElementById('c-leverage'); if(lev) lev.value='1';
+  const slpct=document.getElementById('c-sl-pct'); if(slpct) slpct.value='1';
+  ['c-sl-info','c-tp-info'].forEach(id=>{ const el=document.getElementById(id); if(el) el.textContent=''; });
+  ['cr-pos','cr-pos-top','cr-units','cr-units-top','cr-margin','cr-margin-sub','cr-notional','cr-notional-sub','cr-risk','cr-risk-sub','cr-reward','cr-reward-sub','cr-rr','cr-warning','cv-liq','cv-liq-hint','c-risk-display'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.textContent='—';
+  });
+  const posTop=document.getElementById('cr-pos-top'); if(posTop) posTop.textContent='—';
+  document.getElementById('c-risk-display').textContent='';
+  highlightRiskBtn();
+}
+
 function parseRR(val){
   const hidden = document.getElementById('c-rr-target');
   if(!hidden) return;
@@ -3284,7 +3316,7 @@ function parseRR(val){
       const newTP  = calcDir==='LONG' ? entry + slDist*rr : entry - slDist*rr;
       const dp     = newTP>=1000?2:newTP>=1?4:6;
       tpInp.value  = newTP.toFixed(dp);
-      if(tpInfo) tpInfo.textContent = 'R:R 1:'+rr.toFixed(2)+' · TP berechnet';
+      if(tpInfo) tpInfo.textContent = 'TP berechnet · R:R 1:'+rr.toFixed(2);
     }
   }
   onCalcInput();
