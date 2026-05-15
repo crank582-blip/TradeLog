@@ -1628,12 +1628,14 @@ function onCalcInput(){
 
   // Resolve risk in base currency
   let riskUSDT=null;
-  if(riskMode==='pct'&&capital&&riskVal){
-    riskUSDT=capital*(riskVal/100);
+  const effectiveRisk = riskVal || 1; // default 1% if empty
+  if(riskMode==='pct'&&capital){
+    riskUSDT=capital*(effectiveRisk/100);
     document.getElementById('c-risk-display').textContent='= '+riskUSDT.toFixed(2)+' USDT';
-  } else if(riskMode==='usdt'&&riskVal){
-    riskUSDT=riskVal;
-    document.getElementById('c-risk-display').textContent=capital?'= '+(riskVal/capital*100).toFixed(2)+t('pct_of_capital'):'';
+    if(!riskVal) document.getElementById('c-risk-display').textContent='= '+riskUSDT.toFixed(2)+' USDT (1% default)';
+  } else if(riskMode==='usdt'&&effectiveRisk){
+    riskUSDT=effectiveRisk;
+    document.getElementById('c-risk-display').textContent=capital?'= '+(effectiveRisk/capital*100).toFixed(2)+t('pct_of_capital'):'';
   } else {
     document.getElementById('c-risk-display').textContent='';
   }
