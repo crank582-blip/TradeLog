@@ -485,11 +485,7 @@
           <div id="c-tp-info" style="font-size:9px;color:var(--accent);opacity:.7;margin-top:3px;padding-left:2px"></div>
         </div>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px">
-        <div>
-          <label class="form-label" style="color:var(--red)" data-i18n="calc_sl_pct">SL %</label>
-          <input type="number" class="form-input" id="c-sl-pct" placeholder="1" step="0.1" value="1" oninput="onCalcInput()" style="border-color:var(--red)">
-        </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
         <div>
           <label class="form-label" style="color:var(--gold)" data-i18n="calc_rr_target">R:R Ziel</label>
           <input type="text" class="form-input" id="c-rr-target-display" placeholder="1:2" value="1:2" oninput="parseRR(this.value)" style="border-color:var(--gold)">
@@ -500,6 +496,8 @@
           <input type="number" class="form-input" id="c-leverage" placeholder="1" step="1" value="1" min="1" max="125" oninput="onCalcInput()">
         </div>
       </div>
+      <!-- Hidden SL% for calculations -->
+      <input type="hidden" id="c-sl-pct" value="1">
       <!-- Exchange + Liquidation -->
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px">
         <div>
