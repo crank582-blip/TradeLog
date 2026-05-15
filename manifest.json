@@ -1,0 +1,41 @@
+{
+  "name": "TradeLog — Trading Journal",
+  "short_name": "TradeLog",
+  "description": "Professional trading journal with AI coaching, position calculator and performance analytics",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#08080f",
+  "theme_color": "#08080f",
+  "lang": "de",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["finance", "productivity"],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Neuer Trade",
+      "short_name": "Neuer Trade",
+      "description": "Neuen Trade eintragen",
+      "url": "/#new"
+    },
+    {
+      "name": "Kalkulator",
+      "short_name": "Kalkulator",
+      "description": "Positionsgröße berechnen",
+      "url": "/#calc"
+    }
+  ]
+}
