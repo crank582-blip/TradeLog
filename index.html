@@ -1705,9 +1705,23 @@ function onCalcCrypto(capital, riskUSDT, entry, set){
 }
 
 function onCalcCryptoResult(capital, riskUSDT, entry, slPct, rrTarget, leverage, set){
-  if(!riskUSDT||!entry){
+  if(!entry||!slPct){
     ['cr-pos','cr-pos-top','cr-margin','cr-notional','cr-risk','cr-reward','cr-rr'].forEach(id=>set(id,'—'));
     set('cr-units',t('calc_pos_hint')); set('cr-units-top',t('calc_pos_hint')); set('cr-warning',''); return;
+  }
+  if(!riskUSDT){
+    // No capital/risk set — show partial info with placeholder
+    set('cr-pos', lang==='de'?'Kapital + Risiko eingeben':'Enter capital + risk');
+    set('cr-pos-top', '—');
+    set('cr-units',''); set('cr-units-top','');
+    // Still show SL/TP distances
+    const slDist = entry*(slPct/100);
+    const tpDist = slDist*rrTarget;
+    set('cr-risk',  '-'+slDist.toFixed(2)+' ('+slPct.toFixed(2)+'%)');
+    set('cr-reward','+'+tpDist.toFixed(2)+' (+'+(slPct*rrTarget).toFixed(2)+'%)');
+    set('cr-rr',    '1 : '+rrTarget.toFixed(2));
+    set('cr-margin','—'); set('cr-notional','—'); set('cr-warning','');
+    return;
   }
   const slDist2   = entry*(slPct/100);
   const coins     = riskUSDT/slDist2;
