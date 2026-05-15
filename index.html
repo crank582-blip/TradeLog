@@ -1621,9 +1621,9 @@ function setRiskMode(mode){
 }
 
 function onCalcInput(){
-  const capital = parseFloat(document.getElementById('c-capital').value);
+  const capital = parseFloat((document.getElementById('c-capital').value||'').replace(',','.'));
   const riskVal = parseFloat(document.getElementById('c-risk-pct').value);
-  const entry   = parseFloat(document.getElementById('c-entry').value);
+  const entry   = parseFloat((document.getElementById('c-entry').value||'').replace(',','.'));
   const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
 
   // Resolve risk in base currency
@@ -1653,7 +1653,7 @@ function onCalcCrypto(capital, riskUSDT, entry, set){
   const exchange = document.getElementById('c-exchange')?.value||'bybit';
 
   // Get SL% — prefer calculated from SL price, fall back to hidden field
-  const slPrice  = parseFloat(document.getElementById('c-sl-price')?.value);
+  const slPrice  = parseFloat((document.getElementById('c-sl-price')?.value||'').replace(',','.'));
   let slPct;
   if(entry && slPrice && slPrice>0){
     slPct = Math.abs((entry - slPrice) / entry * 100);
@@ -3323,7 +3323,7 @@ function parseRR(val){
   if(!isNaN(rr) && rr>0){
     hidden.value = rr;
     // Recalculate TP from Entry + SL + new R:R
-    const entry   = parseFloat(document.getElementById('c-entry').value);
+    const entry   = parseFloat((document.getElementById('c-entry').value||'').replace(',','.'));
     const slPrice = parseFloat(document.getElementById('c-sl-price').value);
     const tpInp   = document.getElementById('c-tp-price');
     const tpInfo  = document.getElementById('c-tp-info');
@@ -3341,8 +3341,8 @@ function parseRR(val){
 function onCalcInputFromPrices(){
   const entryInp = document.getElementById('c-entry');
   let entry      = parseFloat(entryInp?.value);
-  const slPrice  = parseFloat(document.getElementById('c-sl-price').value);
-  const tpPrice  = parseFloat(document.getElementById('c-tp-price').value);
+  const slPrice  = parseFloat((document.getElementById('c-sl-price').value||'').replace(',','.'));
+  const tpPrice  = parseFloat((document.getElementById('c-tp-price').value||'').replace(',','.'));
   const rrTarget = parseFloat(document.getElementById('c-rr-target')?.value)||2;
 
   // Auto-calculate entry from SL + TP only when BOTH are set and entry is empty
