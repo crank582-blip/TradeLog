@@ -92,27 +92,27 @@ h1{font-size:18px;font-weight:700;margin-bottom:16px}
 
 <!-- DASHBOARD -->
 <div class="view active" id="view-dashboard">
-  <h1>Dashboard</h1>
+  <h1 data-i18n="h_dashboard">Dashboard</h1>
 
   <!-- Portfolio -->
   <div class="card" style="margin-bottom:12px">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-      <div class="sec" style="margin:0">Portfolio</div>
-      <button onclick="togglePortfolioEdit()" style="background:none;border:1px solid var(--border);border-radius:6px;padding:4px 10px;cursor:pointer;font-family:inherit;font-size:10px;color:var(--text2)">✏️ Bearbeiten</button>
+      <div class="sec" style="margin:0" data-i18n="lbl_portfolio">Portfolio</div>
+      <button onclick="togglePortfolioEdit()" style="background:none;border:1px solid var(--border);border-radius:6px;padding:4px 10px;cursor:pointer;font-family:inherit;font-size:10px;color:var(--text2)" data-i18n="btn_edit">✏️ Bearbeiten</button>
     </div>
     <!-- Edit form -->
     <div id="portfolio-edit" style="display:none;margin-bottom:12px">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
         <div>
-          <div style="font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px">Startkapital</div>
+          <div style="font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px" data-i18n="lbl_start">Startkapital</div>
           <input type="number" class="fi" id="portfolio-start-inp" placeholder="z.B. 1000" step="any">
         </div>
         <div>
-          <div style="font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px">Aktueller Wert</div>
+          <div style="font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px" data-i18n="lbl_current">Aktueller Wert</div>
           <input type="number" class="fi" id="portfolio-current-inp" placeholder="z.B. 1250" step="any">
         </div>
       </div>
-      <button onclick="savePortfolio()" style="width:100%;padding:10px;border-radius:7px;border:none;background:var(--accent);color:var(--bg);cursor:pointer;font-family:inherit;font-weight:700;font-size:13px">Speichern</button>
+      <button onclick="savePortfolio()" style="width:100%;padding:10px;border-radius:7px;border:none;background:var(--accent);color:var(--bg);cursor:pointer;font-family:inherit;font-weight:700;font-size:13px" data-i18n="btn_save">Speichern</button>
     </div>
     <!-- Portfolio value -->
     <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:6px">
@@ -121,15 +121,15 @@ h1{font-size:18px;font-weight:700;margin-bottom:16px}
     </div>
     <div style="display:flex;gap:16px">
       <div>
-        <div style="font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:2px">Startkapital</div>
+        <div style="font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:2px" data-i18n="lbl_start">Startkapital</div>
         <div id="portfolio-start" style="font-size:13px;font-weight:700;color:var(--text2)">—</div>
       </div>
       <div>
-        <div style="font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:2px">Gesamt P&L</div>
+        <div style="font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:2px" data-i18n="lbl_total_pnl">Gesamt P&L</div>
         <div id="portfolio-pnl" style="font-size:13px;font-weight:700">—</div>
       </div>
       <div>
-        <div style="font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:2px">Rendite</div>
+        <div style="font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:2px" data-i18n="lbl_return">Rendite</div>
         <div id="portfolio-pct" style="font-size:13px;font-weight:700">—</div>
       </div>
     </div>
@@ -160,13 +160,42 @@ h1{font-size:18px;font-weight:700;margin-bottom:16px}
   <div class="sg" id="stats-grid"></div>
 
   <!-- Recent trades -->
-  <div class="sec">Letzte Trades</div>
+  <div class="sec" data-i18n="recent_trades">Letzte Trades</div>
   <div id="recent-trades"></div>
 </div>
 
 <!-- TRADES -->
 <div class="view" id="view-trades">
-  <h1>Alle Trades</h1>
+  <h1 data-i18n="h_trades">Alle Trades</h1>
+
+  <!-- Filters -->
+  <div class="card" style="padding:12px">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+      <select class="fi" id="f-dir" onchange="renderTradeList()" style="font-size:12px;padding:8px">
+        <option value="" id="opt-all-dir">Alle Richtungen</option>
+        <option value="LONG">LONG</option>
+        <option value="SHORT">SHORT</option>
+      </select>
+      <select class="fi" id="f-status" onchange="renderTradeList()" style="font-size:12px;padding:8px">
+        <option value="" id="opt-all-status">Alle Status</option>
+        <option value="open" id="opt-open">Offen</option>
+        <option value="closed" id="opt-closed">Geschlossen</option>
+      </select>
+      <select class="fi" id="f-result" onchange="renderTradeList()" style="font-size:12px;padding:8px">
+        <option value="" id="opt-all-result">Alle Ergebnisse</option>
+        <option value="win" id="opt-win">Gewinne</option>
+        <option value="loss" id="opt-loss">Verluste</option>
+      </select>
+      <input type="text" class="fi" id="f-sym" placeholder="Symbol..." oninput="renderTradeList()" style="font-size:12px;padding:8px">
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;align-items:center">
+      <input type="date" class="fi" id="f-from" onchange="renderTradeList()" style="font-size:11px;padding:8px">
+      <input type="date" class="fi" id="f-to" onchange="renderTradeList()" style="font-size:11px;padding:8px">
+      <button onclick="resetFilters()" style="padding:8px;border-radius:7px;border:1px solid var(--border);background:var(--card);color:var(--text3);cursor:pointer;font-family:inherit;font-size:11px" id="btn-reset-filter">✕ Reset</button>
+    </div>
+    <div id="filter-count" style="font-size:10px;color:var(--text3);margin-top:8px;text-align:right"></div>
+  </div>
+
   <div id="trade-list"></div>
 </div>
 
@@ -175,11 +204,11 @@ h1{font-size:18px;font-weight:700;margin-bottom:16px}
   <h1 id="new-title">Neuer Trade</h1>
   <div class="card">
     <div class="fg">
-      <label class="fl">Datum</label>
+      <label class="fl" data-i18n="lbl_date">Datum</label>
       <input type="date" class="fi" id="f-date">
     </div>
     <div class="fg">
-      <label class="fl">Symbol</label>
+      <label class="fl" data-i18n="lbl_symbol">Symbol</label>
       <input type="text" class="fi" id="f-symbol" placeholder="BTC/USDT" style="text-transform:uppercase" oninput="this.value=this.value.toUpperCase()">
     </div>
     <div style="display:flex;gap:8px;margin-bottom:14px">
@@ -187,55 +216,55 @@ h1{font-size:18px;font-weight:700;margin-bottom:16px}
       <button id="f-short" onclick="setDir('SHORT')" style="flex:1;padding:10px;border-radius:7px;border:1px solid var(--border);background:var(--card);color:var(--text4);cursor:pointer;font-family:inherit;font-weight:700;font-size:13px">SHORT</button>
     </div>
     <div class="row">
-      <div style="flex:1" class="fg"><label class="fl">Entry</label><input type="number" class="fi" id="f-entry" placeholder="0.00" step="any" oninput="calcFormRR()"></div>
-      <div style="flex:1" class="fg"><label class="fl">Size (USDT)</label><input type="number" class="fi" id="f-size" placeholder="100" step="any"></div>
+      <div style="flex:1" class="fg"><label class="fl" data-i18n="lbl_entry">Entry</label><input type="number" class="fi" id="f-entry" placeholder="0.00" step="any" oninput="calcFormRR()"></div>
+      <div style="flex:1" class="fg"><label class="fl" data-i18n="lbl_size">Size (USDT)</label><input type="number" class="fi" id="f-size" placeholder="100" step="any"></div>
     </div>
     <div class="row">
-      <div style="flex:1" class="fg"><label class="fl" style="color:var(--red)">Stop Loss</label><input type="number" class="fi" id="f-sl" placeholder="0.00" step="any" oninput="calcFormRR()" style="border-color:var(--red)"></div>
-      <div style="flex:1" class="fg"><label class="fl" style="color:var(--accent)">Take Profit</label><input type="number" class="fi" id="f-tp" placeholder="0.00" step="any" oninput="calcFormRR()" style="border-color:var(--accent)"></div>
+      <div style="flex:1" class="fg"><label class="fl" style="color:var(--red)" data-i18n="lbl_sl">Stop Loss</label><input type="number" class="fi" id="f-sl" placeholder="0.00" step="any" oninput="calcFormRR()" style="border-color:var(--red)"></div>
+      <div style="flex:1" class="fg"><label class="fl" style="color:var(--accent)" data-i18n="lbl_tp">Take Profit</label><input type="number" class="fi" id="f-tp" placeholder="0.00" step="any" oninput="calcFormRR()" style="border-color:var(--accent)"></div>
     </div>
     <div class="row">
-      <div style="flex:1" class="fg"><label class="fl">Leverage</label><input type="number" class="fi" id="f-leverage" value="1" min="1" max="125" step="1"></div>
-      <div style="flex:1" class="fg"><label class="fl">R:R</label><input type="text" class="fi" id="f-rr" placeholder="auto" readonly style="color:var(--accent)"></div>
+      <div style="flex:1" class="fg"><label class="fl" data-i18n="lbl_leverage">Leverage</label><input type="number" class="fi" id="f-leverage" value="1" min="1" max="125" step="1"></div>
+      <div style="flex:1" class="fg"><label class="fl" data-i18n="lbl_rr">R:R</label><input type="text" class="fi" id="f-rr" placeholder="auto" readonly style="color:var(--accent)"></div>
     </div>
     <div class="fg" style="margin-bottom:0">
-      <label class="fl">Notizen</label>
+      <label class="fl" data-i18n="lbl_notes">Notizen</label>
       <textarea class="fi" id="f-notes" placeholder="Setup, Emotions..."></textarea>
     </div>
     <div class="fg" style="margin-top:14px;margin-bottom:0">
-      <label class="fl">Screenshot</label>
+      <label class="fl" data-i18n="lbl_screenshot">Screenshot</label>
       <div id="f-screenshot-preview" style="display:none;margin-bottom:8px;position:relative">
         <img id="f-screenshot-img" style="width:100%;border-radius:7px;border:1px solid var(--border)" />
         <button onclick="removeScreenshot()" style="position:absolute;top:6px;right:6px;background:var(--red-bg);border:1px solid var(--red);color:var(--red);border-radius:20px;padding:2px 8px;cursor:pointer;font-family:inherit;font-size:11px">✕</button>
       </div>
       <label style="display:block;background:var(--input);border:1px dashed var(--border2);border-radius:7px;padding:16px;text-align:center;cursor:pointer;color:var(--text3);font-size:12px" for="f-screenshot-input">
-        📸 Screenshot hochladen
+        <span data-i18n="lbl_upload">📸 Screenshot hochladen</span>
       </label>
       <input type="file" id="f-screenshot-input" accept="image/*" style="display:none" onchange="loadScreenshot(this)">
     </div>
   </div>
-  <button class="btn btn-p" onclick="saveTrade()" id="save-btn">Trade speichern</button>
-  <button class="btn" onclick="cancelEdit()" style="margin-top:8px;background:var(--card);border:1px solid var(--border);color:var(--text2)">Abbrechen</button>
+  <button class="btn btn-p" onclick="saveTrade()" id="save-btn" data-i18n="btn_save">Trade speichern</button>
+  <button class="btn" onclick="cancelEdit()" style="margin-top:8px;background:var(--card);border:1px solid var(--border);color:var(--text2)" data-i18n="btn_cancel">Abbrechen</button>
 </div>
 
 <!-- TRADE DETAIL -->
 <div class="view" id="view-detail">
-  <button onclick="showView('trades')" style="background:none;border:none;color:var(--text3);cursor:pointer;font-family:inherit;font-size:12px;margin-bottom:16px;padding:0">← Zurück</button>
+  <button onclick="showView('trades')" style="background:none;border:none;color:var(--text3);cursor:pointer;font-family:inherit;font-size:12px;margin-bottom:16px;padding:0" data-i18n="btn_back">← Zurück</button>
   <div id="detail-content"></div>
 </div>
 
 <!-- CALCULATOR -->
 <div class="view" id="view-calc">
-  <h1>Positionsgröße</h1>
+  <h1 data-i18n="h_calc">Positionsgröße</h1>
 
   <div class="card">
-    <div class="sec">Konto</div>
+    <div class="sec" data-i18n="sec_account">Konto</div>
     <div class="fg">
-      <label class="fl">Kontokapital (USDT)</label>
+      <label class="fl" data-i18n="lbl_capital">Kontokapital (USDT)</label>
       <input type="number" class="fi" id="cc-capital" placeholder="" step="any">
     </div>
     <div class="fg" style="margin-bottom:0">
-      <label class="fl">Risiko %</label>
+      <label class="fl" data-i18n="lbl_risk">Risiko %</label>
       <div style="display:flex;gap:6px;margin-bottom:8px">
         <button class="tag-btn active" id="cc-rb1" onclick="ccSetRisk(1)">1%</button>
         <button class="tag-btn" id="cc-rb2" onclick="ccSetRisk(2)">2%</button>
@@ -248,13 +277,13 @@ h1{font-size:18px;font-weight:700;margin-bottom:16px}
   </div>
 
   <div class="card">
-    <div class="sec">Preise</div>
+    <div class="sec" data-i18n="sec_prices">Preise</div>
     <div style="display:flex;gap:8px;margin-bottom:12px">
       <button id="cc-long" onclick="ccSetDir('LONG')" style="flex:1;padding:10px;border-radius:7px;border:1px solid var(--accent);background:var(--accent-bg);color:var(--accent);cursor:pointer;font-family:inherit;font-weight:700;font-size:13px">LONG</button>
       <button id="cc-short" onclick="ccSetDir('SHORT')" style="flex:1;padding:10px;border-radius:7px;border:1px solid var(--border);background:var(--card);color:var(--text4);cursor:pointer;font-family:inherit;font-weight:700;font-size:13px">SHORT</button>
     </div>
     <div class="fg">
-      <label class="fl">Entry Preis</label>
+      <label class="fl" data-i18n="lbl_entry">Entry</label>
       <input type="number" class="fi" id="cc-entry" placeholder="" step="any">
     </div>
     <div class="row">
@@ -269,15 +298,9 @@ h1{font-size:18px;font-weight:700;margin-bottom:16px}
         <div id="cc-tp-info" style="font-size:10px;color:var(--accent);margin-top:3px"></div>
       </div>
     </div>
-    <div class="row">
-      <div style="flex:1" class="fg">
+    <div class="fg" style="margin-bottom:14px">
         <label class="fl" style="color:var(--gold)">R:R</label>
-        <input type="text" class="fi" id="cc-rr" placeholder="1:2" value="1:2" oninput="ccParseRR(this.value)" style="border-color:var(--gold)">
-      </div>
-      <div style="flex:1" class="fg">
-        <label class="fl">Leverage</label>
-        <input type="number" class="fi" id="cc-lev" value="1" min="1" max="125" step="1">
-      </div>
+        <input type="text" class="fi" id="cc-rr" placeholder="1:2" oninput="ccParseRR(this.value)" style="border-color:var(--gold)">
     </div>
     <!-- SL% default -->
     <div style="background:var(--input);border:1px solid var(--border);border-radius:8px;padding:10px;margin-bottom:0">
@@ -294,7 +317,9 @@ h1{font-size:18px;font-weight:700;margin-bottom:16px}
     </div>
   </div>
 
-  <button class="btn btn-p" onclick="ccCalculate()" style="margin-bottom:10px">🔢 Berechnen</button>
+  <button class="btn btn-p" onclick="ccCalculate()" style="margin-bottom:10px" data-i18n="btn_calculate">🔢 Berechnen</button>
+
+  <div id="cc-warning" style="display:none;background:var(--gold-bg);border:1px solid var(--gold);border-radius:8px;padding:10px 12px;font-size:11px;color:var(--gold);margin-bottom:10px"></div>
 
   <div id="cc-results" style="display:none">
     <div style="background:var(--accent-bg);border:1px solid var(--accent);border-radius:10px;padding:16px;margin-bottom:10px;text-align:center">
@@ -318,11 +343,7 @@ h1{font-size:18px;font-weight:700;margin-bottom:16px}
           <div style="font-size:8px;color:var(--gold);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px">R:R</div>
           <div id="cc-rr-disp" style="font-size:16px;font-weight:700;color:var(--gold)">—</div>
         </div>
-        <div style="background:var(--card);padding:12px 14px">
-          <div style="font-size:8px;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px">Margin</div>
-          <div id="cc-margin" style="font-size:16px;font-weight:700">—</div>
-          <div id="cc-margin-sub" style="font-size:9px;color:var(--text3);margin-top:2px"></div>
-        </div>
+
         <div style="background:var(--card);padding:12px 14px">
           <div style="font-size:8px;color:var(--red);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px">Stop Loss</div>
           <div id="cc-sl-disp" style="font-size:16px;font-weight:700;color:var(--red)">—</div>
@@ -337,24 +358,47 @@ h1{font-size:18px;font-weight:700;margin-bottom:16px}
     </div>
   </div>
 
-  <button onclick="ccReset()" style="width:100%;padding:11px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--text3);cursor:pointer;font-family:inherit;font-size:13px;margin-bottom:8px">🔄 Zurücksetzen</button>
-  <button class="btn btn-p" onclick="ccUseInTrade()">In neuen Trade übernehmen →</button>
+  <button onclick="ccReset()" style="width:100%;padding:11px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--text3);cursor:pointer;font-family:inherit;font-size:13px;margin-bottom:8px" data-i18n="btn_reset">🔄 Zurücksetzen</button>
+  <button class="btn btn-p" onclick="ccUseInTrade()" data-i18n="btn_use">In neuen Trade übernehmen →</button>
 </div>
 
 <!-- STATS -->
 <div class="view" id="view-stats">
-  <h1>Statistiken</h1>
+  <h1 data-i18n="h_stats">Statistiken</h1>
   <div id="stats-content"></div>
 </div>
 
 <!-- SETTINGS -->
 <div class="view" id="view-settings">
-  <h1>Einstellungen</h1>
+  <h1 data-i18n="h_settings">Einstellungen</h1>
   <div class="card">
-    <div class="sec">Daten</div>
-    <button class="btn" onclick="exportCSV()" style="background:var(--card);border:1px solid var(--border);color:var(--text2);margin-bottom:8px">📊 CSV Export</button>
-    <button class="btn" onclick="exportJSON()" style="background:var(--card);border:1px solid var(--border);color:var(--text2);margin-bottom:8px">💾 JSON Backup</button>
-    <button class="btn btn-d" onclick="clearAll()">🗑 Alle Trades löschen</button>
+    <div class="sec" data-i18n="sec_import">Import</div>
+    <div style="margin-bottom:10px">
+      <label id="lbl-import-bybit" style="display:block;background:var(--input);border:1px dashed var(--border2);border-radius:7px;padding:16px;text-align:center;cursor:pointer;color:var(--text3);font-size:12px" for="import-bybit">
+        📥 Bybit CSV importieren
+      </label>
+      <input type="file" id="import-bybit" accept=".csv" style="display:none" onchange="importBybit(this)">
+    </div>
+    <div style="margin-bottom:10px">
+      <label id="lbl-import-binance" style="display:block;background:var(--input);border:1px dashed var(--border2);border-radius:7px;padding:16px;text-align:center;cursor:pointer;color:var(--text3);font-size:12px" for="import-binance">
+        📥 Binance CSV importieren
+      </label>
+      <input type="file" id="import-binance" accept=".csv" style="display:none" onchange="importBinance(this)">
+    </div>
+    <div style="margin-bottom:10px">
+      <label id="lbl-import-json" style="display:block;background:var(--input);border:1px dashed var(--border2);border-radius:7px;padding:16px;text-align:center;cursor:pointer;color:var(--text3);font-size:12px" for="import-json">
+        🔄 JSON Backup wiederherstellen
+      </label>
+      <input type="file" id="import-json" accept=".json" style="display:none" onchange="importJSON(this)">
+    </div>
+    <div id="import-result" style="display:none;font-size:12px;padding:10px;border-radius:7px;margin-top:4px"></div>
+  </div>
+
+  <div class="card">
+    <div class="sec" data-i18n="sec_data">Daten</div>
+    <button class="btn" onclick="exportCSV()" style="background:var(--card);border:1px solid var(--border);color:var(--text2);margin-bottom:8px" data-i18n="btn_export_csv">📊 CSV Export</button>
+    <button class="btn" onclick="exportJSON()" style="background:var(--card);border:1px solid var(--border);color:var(--text2);margin-bottom:8px" data-i18n="btn_export_json">💾 JSON Backup</button>
+    <button class="btn btn-d" onclick="clearAll()" data-i18n="btn_clear">🗑 Alle Trades löschen</button>
   </div>
 </div>
 
@@ -387,6 +431,84 @@ h1{font-size:18px;font-weight:700;margin-bottom:16px}
 </nav>
 
 <script>
+// ── TRANSLATIONS ─────────────────────────────────────────────────────────────
+const TR={
+  de:{
+    // Nav
+    nav_dash:'Dash',nav_trades:'Trades',nav_new:'Neu',nav_stats:'Stats',nav_calc:'Kalkul',nav_settings:'Setup',
+    // Headings
+    h_dashboard:'Dashboard',recent_trades:'Letzte Trades',h_trades:'Alle Trades',h_new:'Neuer Trade',h_edit:'Trade bearbeiten',
+    h_calc:'Positionsgröße',h_stats:'Statistiken',h_settings:'Einstellungen',
+    // Labels
+    lbl_date:'Datum',lbl_symbol:'Symbol',lbl_entry:'Entry',lbl_exit:'Exit',lbl_size:'Size (USDT)',
+    lbl_sl:'Stop Loss',lbl_tp:'Take Profit',lbl_leverage:'Leverage',lbl_rr:'R:R',lbl_notes:'Notizen',
+    lbl_screenshot:'Screenshot',lbl_capital:'Kontokapital (USDT)',lbl_risk:'Risiko %',
+    lbl_sl_default:'SL Standard %',lbl_sl_default_sub:'(wenn SL leer)',
+    // Buttons
+    btn_save:'Trade speichern',btn_cancel:'Abbrechen',btn_calculate:'🔢 Berechnen',
+    btn_reset:'🔄 Zurücksetzen',btn_use:'In neuen Trade übernehmen →',
+    btn_export_csv:'📊 CSV Export',btn_export_json:'💾 JSON Backup',btn_clear:'🗑 Alle Trades löschen',
+    btn_edit:'✏️ Bearbeiten',btn_delete:'🗑 Löschen',btn_back:'← Zurück',btn_close:'Schließen',
+    // Sections
+    sec_account:'Konto',sec_prices:'Preise',sec_import:'Import',sec_data:'Daten',
+    // Portfolio
+    lbl_portfolio:'Portfolio',lbl_start:'Startkapital',lbl_current:'Aktueller Wert',
+    lbl_total_pnl:'Gesamt P&L',lbl_return:'Rendite',
+    // Close trade
+    close_trade:'Trade schließen',sl_hit:'🛑 SL Hit',tp_hit:'✅ TP Hit',manual_exit:'Manueller Exit-Preis',
+    // Import
+    import_bybit:'📥 Bybit CSV importieren',import_binance:'📥 Binance CSV importieren',
+    import_json:'🔄 JSON Backup wiederherstellen',
+    // Messages
+    no_trades:'Noch keine Trades.',add_trade:'Trade hinzufügen →',
+    no_closed:'Noch keine abgeschlossenen Trades.',open_trade:'offen',
+    confirm_delete:'Trade löschen?',
+    confirm_clear:'Alle Trades löschen? Diese Aktion kann nicht rückgängig gemacht werden.',
+    required:'Datum, Symbol und Entry sind erforderlich.',
+    enter_exit:'Bitte Exit-Preis eingeben.',enter_valid:'Bitte gültigen Wert eingeben.',
+    // Stats
+    stats_overview:'Übersicht',stats_streaks:'Streaks',stats_weekday:'P&L nach Wochentag',
+    stats_symbol:'Performance nach Symbol',
+    stat_total:'Total P&L',stat_winrate:'Win-Rate',stat_trades:'Trades',
+    stat_avg_win:'Avg Win',stat_avg_loss:'Avg Loss',stat_best:'Bester',stat_worst:'Schlechtester',
+    stat_wins:'Wins',stat_losses:'Losses',stat_max_win:'Max Win-Streak',
+    stat_max_loss:'Max Loss-Streak',stat_current:'Aktuell',
+    stat_wins_s:'Wins',stat_losses_s:'Losses',
+  },
+  en:{
+    nav_dash:'Dash',nav_trades:'Trades',nav_new:'New',nav_stats:'Stats',nav_calc:'Calc',nav_settings:'Setup',
+    h_dashboard:'Dashboard',recent_trades:'Recent Trades',h_trades:'All Trades',h_new:'New Trade',h_edit:'Edit Trade',
+    h_calc:'Position Size',h_stats:'Statistics',h_settings:'Settings',
+    lbl_date:'Date',lbl_symbol:'Symbol',lbl_entry:'Entry',lbl_exit:'Exit',lbl_size:'Size (USDT)',
+    lbl_sl:'Stop Loss',lbl_tp:'Take Profit',lbl_leverage:'Leverage',lbl_rr:'R:R',lbl_notes:'Notes',
+    lbl_screenshot:'Screenshot',lbl_capital:'Account Capital (USDT)',lbl_risk:'Risk %',
+    lbl_sl_default:'Default SL %',lbl_sl_default_sub:'(if SL empty)',
+    btn_save:'Save Trade',btn_cancel:'Cancel',btn_calculate:'🔢 Calculate',
+    btn_reset:'🔄 Reset',btn_use:'Use in New Trade →',
+    btn_export_csv:'📊 CSV Export',btn_export_json:'💾 JSON Backup',btn_clear:'🗑 Delete All Trades',
+    btn_edit:'✏️ Edit',btn_delete:'🗑 Delete',btn_back:'← Back',btn_close:'Close',
+    sec_account:'Account',sec_prices:'Prices',sec_import:'Import',sec_data:'Data',
+    lbl_portfolio:'Portfolio',lbl_start:'Starting Capital',lbl_current:'Current Value',
+    lbl_total_pnl:'Total P&L',lbl_return:'Return',
+    close_trade:'Close Trade',sl_hit:'🛑 SL Hit',tp_hit:'✅ TP Hit',manual_exit:'Manual Exit Price',
+    import_bybit:'📥 Import Bybit CSV',import_binance:'📥 Import Binance CSV',
+    import_json:'🔄 Restore JSON Backup',
+    no_trades:'No trades yet.',add_trade:'Add trade →',
+    no_closed:'No closed trades yet.',open_trade:'open',
+    confirm_delete:'Delete trade?',
+    confirm_clear:'Delete all trades? This cannot be undone.',
+    required:'Date, symbol and entry are required.',
+    enter_exit:'Please enter an exit price.',enter_valid:'Please enter a valid value.',
+    stats_overview:'Overview',stats_streaks:'Streaks',stats_weekday:'P&L by Weekday',
+    stats_symbol:'Performance by Symbol',
+    stat_total:'Total P&L',stat_winrate:'Win Rate',stat_trades:'Trades',
+    stat_avg_win:'Avg Win',stat_avg_loss:'Avg Loss',stat_best:'Best',stat_worst:'Worst',
+    stat_wins:'Wins',stat_losses:'Losses',stat_max_win:'Max Win Streak',
+    stat_max_loss:'Max Loss Streak',stat_current:'Current',
+  }
+};
+function t(k){ return (TR[lang]||TR.de)[k]||k; }
+
 // ── STATE ─────────────────────────────────────────────────────────────────────
 let trades   = JSON.parse(localStorage.getItem('tl_trades')||'[]');
 let lang     = localStorage.getItem('tl_lang')||'de';
@@ -406,9 +528,31 @@ function applyTheme(){
   document.body.classList.toggle('light', theme==='light');
 }
 function toggleLang(){
-  lang = lang==='de'?'en':'de';
+  lang=lang==='de'?'en':'de';
   localStorage.setItem('tl_lang',lang);
-  document.getElementById('lang-btn').textContent = lang.toUpperCase();
+  applyLang();
+}
+
+function applyLang(){
+  document.getElementById('lang-btn').textContent=lang.toUpperCase();
+  // Filter options
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    el.textContent=t(el.dataset.i18n);
+  });
+  // Placeholder elements
+  document.querySelectorAll('[data-i18n-ph]').forEach(el=>{
+    el.placeholder=t(el.dataset.i18nPh);
+  });
+  const rf=document.getElementById('btn-reset-filter'); if(rf) rf.textContent='✕ Reset';
+  const optMap={'opt-all-dir':'filter_all_dir','opt-all-status':'filter_all_status','opt-open':'filter_open','opt-closed':'filter_closed','opt-all-result':'filter_all_result','opt-win':'filter_win','opt-loss':'filter_loss'};
+  Object.entries(optMap).forEach(([id,key])=>{ const el=document.getElementById(id); if(el) el.textContent=t(key); });
+  const ib=document.getElementById('lbl-import-bybit'); if(ib) ib.textContent=t('import_bybit');
+  const ibi=document.getElementById('lbl-import-binance'); if(ibi) ibi.textContent=t('import_binance');
+  const ij=document.getElementById('lbl-import-json'); if(ij) ij.textContent=t('import_json');
+  // Re-render dynamic content
+  if(document.getElementById('view-dashboard')?.classList.contains('active')) renderDashboard();
+  if(document.getElementById('view-trades')?.classList.contains('active')) renderTradeList();
+  if(document.getElementById('view-stats')?.classList.contains('active')) renderStats();
 }
 
 // ── NAVIGATION ────────────────────────────────────────────────────────────────
@@ -596,10 +740,10 @@ function renderDashboard(){
 
   document.getElementById('stats-grid').innerHTML=[
     {l:'Total P&L',v:(total>=0?'+':'')+total.toFixed(2)+' $',c:tc},
-    {l:'Win-Rate',v:wr+'%',c:parseFloat(wr)>=50?'var(--accent)':'var(--gold)'},
+    {l:t('stat_winrate'),v:wr+'%',c:parseFloat(wr)>=50?'var(--accent)':'var(--gold)'},
     {l:'Trades',v:closed.length,c:'var(--text)'},
-    {l:'Avg Win',v:'+'+avgW.toFixed(2)+' $',c:'var(--accent)'},
-    {l:'Avg Loss',v:'-'+avgL.toFixed(2)+' $',c:'var(--red)'},
+    {l:t('stat_avg_win'),v:'+'+avgW.toFixed(2)+' $',c:'var(--accent)'},
+    {l:t('stat_avg_loss'),v:'-'+avgL.toFixed(2)+' $',c:'var(--red)'},
   ].map(s=>'<div class="st"><div class="sl">'+s.l+'</div><div class="sv" style="color:'+s.c+'">'+s.v+'</div></div>').join('');
 
   // P&L chart
@@ -607,7 +751,7 @@ function renderDashboard(){
   const chartLabel=document.getElementById('pnl-chart-label');
   if(chartSvg){
     if(!pnls.length){
-      chartSvg.innerHTML='<text x="50%" y="50%" text-anchor="middle" style="font-size:11px;fill:var(--text3);font-family:monospace">Noch keine Trades</text>';
+      chartSvg.innerHTML='<text x="50%" y="50%" text-anchor="middle" style="font-size:11px;fill:var(--text3);font-family:monospace">'+t('no_trades')+'</text>';
       if(chartLabel) chartLabel.textContent='';
     } else {
       const W=chartSvg.parentElement.offsetWidth||300, H=70, PL=32, PR=8, PT=6, PB=14;
@@ -637,10 +781,10 @@ function renderDashboard(){
   // Recent trades
   const recent=trades.slice(-5).reverse();
   const el=document.getElementById('recent-trades');
-  if(!recent.length){ el.innerHTML='<div class="empty">Noch keine Trades. <a onclick="showView(\'new\')">Trade hinzufügen →</a></div>'; return; }
+  if(!recent.length){ el.innerHTML='<div class="empty">'+t('no_trades')+' <a onclick="showView(\'new\')">'+ t('add_trade')+'</a></div>'; return; }
   el.innerHTML=recent.map(t=>{
     const pnl=calcTradePnL(t);
-    const pnlStr=pnl!==null?(pnl>=0?'+':'')+pnl.toFixed(2)+' $':'offen';
+    const pnlStr=pnl!==null?(pnl>=0?'+':'')+pnl.toFixed(2)+' $':t('open_trade');
     const pnlCol=pnl===null?'var(--text3)':pnl>=0?'var(--accent)':'var(--red)';
     return '<div class="ti" onclick="openTrade(\''+t.id+'\')">'+
       '<div><div style="font-size:13px;font-weight:700;margin-bottom:3px">'+t.symbol+'</div>'+
@@ -661,61 +805,91 @@ function calcExpectedPnL(t){
 }
 
 // ── TRADE LIST ────────────────────────────────────────────────────────────────
+function resetFilters(){
+  ['f-dir','f-status','f-result','f-sym','f-from','f-to'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.value='';
+  });
+  renderTradeList();
+}
+
 function renderTradeList(){
   const el=document.getElementById('trade-list');
-  if(!trades.length){ el.innerHTML='<div class="empty">Keine Trades. <a onclick="showView(\'new\')">Trade hinzufügen →</a></div>'; return; }
-  el.innerHTML=[...trades].reverse().map(t=>{
-    const pnl=calcTradePnL(t);
-    const pnlStr=pnl!==null?(pnl>=0?'+':'')+pnl.toFixed(2)+' $':'offen';
+  const countEl=document.getElementById('filter-count');
+  const fDir    = document.getElementById('f-dir')?.value||'';
+  const fStatus = document.getElementById('f-status')?.value||'';
+  const fResult = document.getElementById('f-result')?.value||'';
+  const fSym    = (document.getElementById('f-sym')?.value||'').trim().toUpperCase();
+  const fFrom   = document.getElementById('f-from')?.value||'';
+  const fTo     = document.getElementById('f-to')?.value||'';
+
+  let filtered=[...trades].reverse();
+  if(fDir)    filtered=filtered.filter(tr=>tr.direction===fDir);
+  if(fStatus==='open')   filtered=filtered.filter(tr=>!tr.exit);
+  if(fStatus==='closed') filtered=filtered.filter(tr=>!!tr.exit);
+  if(fSym)    filtered=filtered.filter(tr=>(tr.symbol||'').toUpperCase().includes(fSym));
+  if(fFrom)   filtered=filtered.filter(tr=>tr.date>=fFrom);
+  if(fTo)     filtered=filtered.filter(tr=>tr.date<=fTo);
+  if(fResult==='win')  filtered=filtered.filter(tr=>{ const p=calcTradePnL(tr); return p!==null&&p>0; });
+  if(fResult==='loss') filtered=filtered.filter(tr=>{ const p=calcTradePnL(tr); return p!==null&&p<0; });
+
+  if(countEl) countEl.textContent=filtered.length+' Trades';
+
+  if(!filtered.length){
+    el.innerHTML='<div class="empty">'+t('no_trades')+' <a onclick="showView(\'new\')">'+t('add_trade')+'</a></div>';
+    return;
+  }
+
+  el.innerHTML=filtered.map(tr=>{
+    const pnl=calcTradePnL(tr);
+    const pnlStr=pnl!==null?(pnl>=0?'+':'')+pnl.toFixed(2)+' $':t('open_trade');
     const pnlCol=pnl===null?'var(--text3)':pnl>=0?'var(--accent)':'var(--red)';
-    const bl=t.direction==='LONG'?'2px solid var(--accent)':'2px solid var(--red)';
-    return '<div class="ti" style="border-left:'+bl+'" onclick="openTrade(\''+t.id+'\')">'+
-      '<div><div style="font-size:13px;font-weight:700;margin-bottom:3px">'+t.symbol+'</div>'+
-      '<span class="badge '+(t.direction==='LONG'?'bl':'bs')+'">'+t.direction+'</span>'+
-      '<span style="font-size:9px;color:var(--text3);margin-left:6px">'+t.date+'</span></div>'+
+    const bl=tr.direction==='LONG'?'2px solid var(--accent)':'2px solid var(--red)';
+    return '<div class="ti" style="border-left:'+bl+'" onclick="openTrade(\''+tr.id+'\')">'+ 
+      '<div><div style="font-size:13px;font-weight:700;margin-bottom:3px">'+tr.symbol+'</div>'+ 
+      '<span class="badge '+(tr.direction==='LONG'?'bl':'bs')+'">'+tr.direction+'</span>'+
+      '<span style="font-size:9px;color:var(--text3);margin-left:6px">'+tr.date+'</span></div>'+
       '<div style="text-align:right"><div style="font-size:15px;font-weight:700;color:'+pnlCol+'">'+pnlStr+'</div>'+
-      (t.rr?'<div style="font-size:9px;color:var(--gold)">R:R '+t.rr+'</div>':'')+'</div></div>';
+      (tr.rr?'<div style="font-size:9px;color:var(--gold)">R:R '+tr.rr+'</div>':'')+'</div></div>';
   }).join('');
 }
 
+
 function openTrade(id){
-  const t=trades.find(x=>x.id===id);
-  if(!t) return;
+  const tr=trades.find(x=>x.id===id);
+  if(!tr) return;
   showView('detail');
-  const pnl=calcTradePnL(t);
-  const pnlStr=pnl!==null?(pnl>=0?'+':'')+pnl.toFixed(2)+' $':'Offen';
+  const pnl=calcTradePnL(tr);
+  const pnlStr=pnl!==null?(pnl>=0?'+':'')+pnl.toFixed(2)+' $':t('open_trade');
   const pnlCol=pnl===null?'var(--text3)':pnl>=0?'var(--accent)':'var(--red)';
   document.getElementById('detail-content').innerHTML=
     '<div class="card">'+
     '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">'+
-    '<div><div style="font-size:22px;font-weight:700">'+t.symbol+'</div>'+
-    '<span class="badge '+(t.direction==='LONG'?'bl':'bs')+'" style="font-size:10px;padding:4px 10px">'+t.direction+'</span></div>'+
+    '<div><div style="font-size:22px;font-weight:700">'+tr.symbol+'</div>'+
+    '<span class="badge '+(tr.direction==='LONG'?'bl':'bs')+'" style="font-size:10px;padding:4px 10px">'+tr.direction+'</span></div>'+
     '<div style="font-size:24px;font-weight:700;color:'+pnlCol+'">'+pnlStr+'</div></div>'+
     '<div class="sg">'+
-    [['Datum',t.date],['Entry',t.entry],['Exit',t.exit||'—'],['SL',t.sl||'—'],['TP',t.tp||'—'],['Leverage',t.leverage+'x']].map(([l,v])=>
+    [[t('lbl_date'),tr.date],[t('lbl_entry'),tr.entry],['Exit',tr.exit||'—'],[t('lbl_sl'),tr.sl||'—'],[t('lbl_tp'),tr.tp||'—']].map(([l,v])=>
       '<div class="st"><div class="sl">'+l+'</div><div class="sv" style="font-size:14px">'+v+'</div></div>').join('')+
     '</div>'+
-    (t.notes?'<div style="font-size:12px;color:var(--text2);margin-top:8px;padding:10px;background:var(--input);border-radius:7px">'+t.notes+'</div>':'')+
-    (t.screenshot?'<img src="'+t.screenshot+'" style="width:100%;border-radius:7px;margin-top:10px;border:1px solid var(--border)"/>':'')+
+    (tr.notes?'<div style="font-size:12px;color:var(--text2);margin-top:8px;padding:10px;background:var(--input);border-radius:7px">'+tr.notes+'</div>':'')+
+    (tr.screenshot?'<img src="'+tr.screenshot+'" style="width:100%;border-radius:7px;margin-top:10px;border:1px solid var(--border)"/>':'')+
     '</div>'+
-    // Close trade section (only if open)
-    (!t.exit?
+    (!tr.exit?
     '<div class="card" style="margin-top:4px">'+
-    '<div class="sec">Trade schließen</div>'+
+    '<div class="sec">'+t('close_trade')+'</div>'+
     '<div style="display:flex;gap:8px;margin-bottom:10px">'+
-      (t.sl?'<button onclick="closeTrade(\''+t.id+'\',\'sl\')" style="flex:1;padding:10px;border-radius:7px;border:1px solid var(--red);background:var(--red-bg);color:var(--red);cursor:pointer;font-family:inherit;font-weight:700;font-size:12px">🛑 SL Hit<br><span style="font-size:10px;font-weight:400">'+t.sl+'</span></button>':'')+
-      (t.tp?'<button onclick="closeTrade(\''+t.id+'\',\'tp\')" style="flex:1;padding:10px;border-radius:7px;border:1px solid var(--accent);background:var(--accent-bg);color:var(--accent);cursor:pointer;font-family:inherit;font-weight:700;font-size:12px">✅ TP Hit<br><span style="font-size:10px;font-weight:400">'+t.tp+'</span></button>':'')+
+      (tr.sl?'<button onclick="closeTrade(\''+tr.id+'\',\'sl\')" style="flex:1;padding:10px;border-radius:7px;border:1px solid var(--red);background:var(--red-bg);color:var(--red);cursor:pointer;font-family:inherit;font-weight:700;font-size:12px">'+t('sl_hit')+'<br><span style="font-size:10px;font-weight:400">'+tr.sl+'</span></button>':'')+
+      (tr.tp?'<button onclick="closeTrade(\''+tr.id+'\',\'tp\')" style="flex:1;padding:10px;border-radius:7px;border:1px solid var(--accent);background:var(--accent-bg);color:var(--accent);cursor:pointer;font-family:inherit;font-weight:700;font-size:12px">'+t('tp_hit')+'<br><span style="font-size:10px;font-weight:400">'+tr.tp+'</span></button>':'')+
     '</div>'+
     '<div style="display:flex;gap:8px;align-items:center">'+
-      '<input type="number" id="manual-exit-'+t.id+'" class="fi" placeholder="Manueller Exit-Preis" step="any" style="flex:1">'+
-      '<button onclick="closeTrade(\''+t.id+'\',\'manual\')" style="padding:10px 14px;border-radius:7px;border:1px solid var(--gold);background:var(--gold-bg);color:var(--gold);cursor:pointer;font-family:inherit;font-weight:700;font-size:12px;white-space:nowrap">Schließen</button>'+
+      '<input type="number" id="manual-exit-'+tr.id+'" class="fi" placeholder="'+t('manual_exit')+'" step="any" style="flex:1">'+
+      '<button onclick="closeTrade(\''+tr.id+'\',\'manual\')" style="padding:10px 14px;border-radius:7px;border:1px solid var(--gold);background:var(--gold-bg);color:var(--gold);cursor:pointer;font-family:inherit;font-weight:700;font-size:12px;white-space:nowrap">'+t('btn_close')+'</button>'+
     '</div>'+
     '</div>'
     :'')+
-    '</div>'+
     '<div style="display:flex;gap:8px;margin-top:4px">'+
-    '<button class="btn" onclick="editTrade(\''+t.id+'\')" style="background:var(--card);border:1px solid var(--border);color:var(--text2)">✏️ Bearbeiten</button>'+
-    '<button class="btn btn-d" onclick="deleteTrade(\''+t.id+'\')">🗑 Löschen</button></div>';
+    '<button class="btn" onclick="editTrade(\''+tr.id+'\')" style="background:var(--card);border:1px solid var(--border);color:var(--text2)">'+t('btn_edit')+'</button>'+
+    '<button class="btn btn-d" onclick="deleteTrade(\''+tr.id+'\')">'+t('btn_delete')+'</button></div>';
 }
 
 function editTrade(id){
@@ -723,7 +897,7 @@ function editTrade(id){
   if(!t) return;
   editId=id;
   showView('new');
-  document.getElementById('new-title').textContent='Trade bearbeiten';
+  document.getElementById('new-title').textContent=t('h_edit');
   document.getElementById('f-date').value=t.date||'';
   document.getElementById('f-symbol').value=t.symbol||'';
   document.getElementById('f-entry').value=t.entry||'';
@@ -738,7 +912,7 @@ function editTrade(id){
 }
 
 function deleteTrade(id){
-  if(!confirm('Trade löschen?')) return;
+  if(!confirm(t('confirm_delete'))) return;
   trades=trades.filter(t=>t.id!==id);
   save();
   showView('trades');
@@ -747,7 +921,7 @@ function deleteTrade(id){
 // ── NEW TRADE FORM ────────────────────────────────────────────────────────────
 function resetForm(){
   editId=null;
-  document.getElementById('new-title').textContent='Neuer Trade';
+  document.getElementById('new-title').textContent=t('h_new');
   document.getElementById('f-date').value=new Date().toISOString().slice(0,10);
   document.getElementById('f-symbol').value='BTC/USDT';
   document.getElementById('f-entry').value='';
@@ -783,7 +957,7 @@ function saveTrade(){
   const date=document.getElementById('f-date').value;
   const symbol=document.getElementById('f-symbol').value.trim().toUpperCase();
   const entry=document.getElementById('f-entry').value;
-  if(!date||!symbol||!entry){ alert('Datum, Symbol und Entry sind erforderlich.'); return; }
+  if(!date||!symbol||!entry){ alert(t('required')); return; }
   const t={
     id: editId||Date.now().toString(),
     date, symbol,
@@ -849,7 +1023,7 @@ function closeTrade(id, type){
   else if(type==='tp') exit=t.tp;
   else {
     const val=parseFloat(document.getElementById('manual-exit-'+id)?.value);
-    if(!val){ alert('Bitte Exit-Preis eingeben.'); return; }
+    if(!val){ alert(t('enter_exit')); return; }
     exit=val;
   }
   t.exit=exit;
@@ -886,111 +1060,124 @@ function ccParseRR(val){
 
 function ccReset(){
   ['cc-capital','cc-entry','cc-sl','cc-tp'].forEach(id=>{
-    const el=document.getElementById(id); if(el){el.value='';el.placeholder='';}
+    const el=document.getElementById(id);
+    if(el){ el.value=''; el.placeholder=''; }
   });
   document.getElementById('cc-risk').value='1';
-  document.getElementById('cc-lev').value='1';
-  document.getElementById('cc-rr').value='1:2';
+  const rrEl=document.getElementById('cc-rr');
+  if(rrEl){ rrEl.value=''; rrEl.placeholder='1:2'; }
   ccHighlightRisk();
   const res=document.getElementById('cc-results');
   if(res) res.style.display='none';
-  ['cc-sl-info','cc-tp-info'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='';});
+  const warn=document.getElementById('cc-warning');
+  if(warn) warn.style.display='none';
+  ['cc-sl-info','cc-tp-info','cc-risk-amt'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.textContent='';
+  });
 }
 
 function ccCalculate(){
-  function n(id){ const el=document.getElementById(id); if(!el||el.value==='') return null; return parseFloat(el.value.replace(',','.'))||null; }
-  function s(id,v){ const el=document.getElementById(id); if(el) el.textContent=v; }
+  // Read values directly from DOM
+  function g(id){ return document.getElementById(id); }
+  function v(id){
+    const el=g(id); if(!el) return 0;
+    return parseFloat((el.value||'').replace(',','.').replace(/[^0-9.\-]/g,''))||0;
+  }
 
-  const capital  = n('cc-capital')||0;
-  const riskPct  = n('cc-risk')||1;
-  const leverage = n('cc-lev')||1;
-  let   entry    = n('cc-entry');
-  let   sl       = n('cc-sl');
-  let   tp       = n('cc-tp');
-  const slPctDef = n('cc-sl-pct')||1;
+  const capital  = v('cc-capital');
+  const riskPct  = v('cc-risk') || 1;
+  const slPctDef = v('cc-sl-pct') || 1;
+  let   entry    = v('cc-entry');
+  let   slPrice  = v('cc-sl');
+  let   tpPrice  = v('cc-tp');
 
   // Parse R:R
-  const rrTxt=(document.getElementById('cc-rr')?.value||'1:2').replace(',','.');
-  let rrInp=2;
+  const rrTxt = (g('cc-rr')?.value||'1:2').replace(',','.');
+  let rrInp = 2;
   if(rrTxt.includes(':')){ const p=rrTxt.split(':'); rrInp=(parseFloat(p[1])||2)/(parseFloat(p[0])||1); }
-  else rrInp=parseFloat(rrTxt)||2;
+  else rrInp = parseFloat(rrTxt)||2;
 
-  // Auto-derive SL from SL% if missing
-  if(entry && !sl){
-    sl = ccDir==='LONG' ? entry*(1-slPctDef/100) : entry*(1+slPctDef/100);
-    const slEl=document.getElementById('cc-sl');
-    if(slEl) slEl.placeholder=sl.toFixed(entry>=1000?2:4);
-    s('cc-sl-info','-'+slPctDef.toFixed(1)+'% Standard');
+  function s(id,val){ const el=g(id); if(el) el.textContent=val; }
+
+  // ── DERIVE MISSING VALUES ──────────────────────────────────────────────────
+  // SL from SL% if missing
+  if(entry && !slPrice){
+    slPrice = ccDir==='LONG' ? entry*(1-slPctDef/100) : entry*(1+slPctDef/100);
+    const el=g('cc-sl'); if(el) el.placeholder=slPrice.toFixed(entry>=1000?2:4);
+    s('cc-sl-info', '-'+slPctDef.toFixed(1)+'% Standard');
   }
 
-  // Auto-derive TP from R:R if missing
-  if(entry && sl && !tp){
-    const slDist=Math.abs(entry-sl);
-    tp = ccDir==='LONG' ? entry+slDist*rrInp : entry-slDist*rrInp;
-    const tpEl=document.getElementById('cc-tp');
-    if(tpEl) tpEl.placeholder=tp.toFixed(entry>=1000?2:4);
-    s('cc-tp-info','R:R 1:'+rrInp.toFixed(2)+' berechnet');
+  // TP from R:R if missing
+  if(entry && slPrice && !tpPrice){
+    const d=Math.abs(entry-slPrice);
+    tpPrice = ccDir==='LONG' ? entry+d*rrInp : entry-d*rrInp;
+    const el=g('cc-tp'); if(el) el.placeholder=tpPrice.toFixed(entry>=1000?2:4);
+    s('cc-tp-info', 'R:R 1:'+rrInp.toFixed(2)+' berechnet');
   }
 
-  // Derive entry from SL+TP if missing
-  if(!entry && sl && tp){
+  // Entry from SL+TP+RR if missing
+  if(!entry && slPrice && tpPrice){
     const isLong=ccDir==='LONG';
-    if((isLong&&sl<tp)||(!isLong&&sl>tp)){
-      entry=(tp+rrInp*sl)/(1+rrInp);
-      const eEl=document.getElementById('cc-entry');
-      if(eEl) eEl.placeholder=entry.toFixed(entry>=1000?2:4);
+    if((isLong&&slPrice<tpPrice)||(!isLong&&slPrice>tpPrice)){
+      entry=(tpPrice+rrInp*slPrice)/(1+rrInp);
+      const el=g('cc-entry'); if(el) el.placeholder=entry.toFixed(entry>=1000?2:4);
     }
   }
 
-  if(!entry||!sl){ alert('Bitte Entry und SL eingeben.'); return; }
+  if(!entry||!slPrice){ alert(t('required')); return; }
 
-  // SL info
-  const slPct=Math.abs((entry-sl)/entry*100);
-  s('cc-sl-info','-'+slPct.toFixed(2)+'%');
+  // ── CALCULATIONS ───────────────────────────────────────────────────────────
+  const slPct   = Math.abs((entry-slPrice)/entry*100);
+  const slDist  = Math.abs(entry-slPrice);
 
-  // TP info
-  if(tp){
-    const slD=Math.abs(entry-sl), tpD=Math.abs(tp-entry);
-    const rr=slD>0?tpD/slD:0;
-    s('cc-tp-info','R:R 1:'+rr.toFixed(2));
-    // Update RR display
-    const rrEl=document.getElementById('cc-rr');
-    if(rrEl && rrEl!==document.activeElement) rrEl.value='1:'+rr.toFixed(2);
+  // Update info labels
+  s('cc-sl-info', '-'+slPct.toFixed(2)+'%');
+  if(tpPrice){
+    const rr=slDist>0?Math.abs(tpPrice-entry)/slDist:0;
+    s('cc-tp-info', 'R:R 1:'+rr.toFixed(2));
+    const el=g('cc-rr'); if(el&&el!==document.activeElement) el.value='1:'+rr.toFixed(2);
     rrInp=rr;
   }
 
   // Show results
-  const res=document.getElementById('cc-results');
-  if(res) res.style.display='block';
+  const res=g('cc-results'); if(res) res.style.display='block';
+  s('cc-sl-disp',  slPrice.toFixed(slPrice>=1000?2:4));
+  s('cc-sl-pct-disp', '-'+slPct.toFixed(2)+'%');
+  s('cc-tp-disp',  tpPrice ? tpPrice.toFixed(tpPrice>=1000?2:4) : '—');
+  s('cc-tp-rr-disp', tpPrice ? 'R:R 1:'+rrInp.toFixed(2) : '');
 
-  const dp=entry>=1000?2:4;
-  s('cc-sl-disp',sl.toFixed(dp));
-  s('cc-sl-pct-disp','-'+slPct.toFixed(2)+'%');
-  s('cc-tp-disp',tp?tp.toFixed(dp):'—');
-  s('cc-tp-rr-disp',tp?'R:R 1:'+rrInp.toFixed(2):'');
+  if(!capital){ s('cc-pos', lang==='de'?'Kapital eingeben':'Enter capital'); return; }
 
-  if(!capital){ s('cc-pos',lang==='de'?'Kapital eingeben':'Enter capital'); return; }
+  // Risk in USDT
+  const riskUSDT = capital * riskPct / 100;
+  s('cc-risk-amt', '= '+riskUSDT.toFixed(2)+' USDT');
 
-  const riskUSDT=capital*riskPct/100;
-  s('cc-risk-amt','= '+riskUSDT.toFixed(2)+' USDT');
+  // Position size based on risk
+  const coinsNeeded = riskUSDT / slDist;       // coins to risk exactly riskUSDT
+  let   pos         = coinsNeeded * entry;  // notional
+  let   margin      = pos;           // capital needed
 
-  const slDist=entry*(slPct/100);
-  const coins=riskUSDT/slDist;
-  const pos=coins*entry*leverage;
-  const margin=pos/leverage;
+  // No cap needed — position in units is always valid
+  const warning = '';
 
-  s('cc-pos',pos.toFixed(2)+' USDT');
-  s('cc-units',coins.toFixed(6)+' Units');
-  s('cc-margin',(margin).toFixed(2)+' USDT');
-  s('cc-margin-sub','÷ '+leverage+'x');
-  s('cc-risk-usdt','-'+riskUSDT.toFixed(2)+' USDT');
-  s('cc-risk-pct',riskPct.toFixed(2)+'% Kapital');
+  // Effective values after cap
+  const actualCoins = pos / entry;
+  const actualRisk  = actualCoins * slDist;
+  const actualRPct  = (actualRisk/capital*100).toFixed(2);
 
-  if(tp){
-    const reward=riskUSDT*rrInp;
-    s('cc-reward','+'+reward.toFixed(2)+' USDT');
-    s('cc-reward-pct',(reward/capital*100).toFixed(2)+'% Kapital');
-    s('cc-rr-disp','1 : '+rrInp.toFixed(2));
+  s('cc-pos',    actualCoins.toFixed(6)+' Units');
+  s('cc-units',  '');
+  s('cc-risk-usdt', '-'+actualRisk.toFixed(2)+' USDT');
+  s('cc-risk-pct',   actualRPct+'% Kapital');
+
+  const wEl=g('cc-warning');
+  if(wEl){ wEl.textContent=warning; wEl.style.display=warning?'block':'none'; }
+
+  if(tpPrice){
+    const reward = actualRisk * rrInp;
+    s('cc-reward',     '+'+reward.toFixed(2)+' USDT');
+    s('cc-reward-pct', (reward/capital*100).toFixed(2)+'% Kapital');
+    s('cc-rr-disp',    '1 : '+rrInp.toFixed(2));
   } else {
     s('cc-reward','—'); s('cc-reward-pct',''); s('cc-rr-disp','—');
   }
@@ -1001,7 +1188,6 @@ function ccUseInTrade(){
   const p=id=>document.getElementById(id)?.placeholder||'';
   const capital=parseFloat(n('cc-capital'))||0;
   const riskPct=parseFloat(n('cc-risk'))||1;
-  const leverage=parseFloat(n('cc-lev'))||1;
 
   // Get position size from result display
   const posEl=document.getElementById('cc-pos');
@@ -1017,7 +1203,6 @@ function ccUseInTrade(){
   document.getElementById('f-entry').value=n('cc-entry')||p('cc-entry');
   document.getElementById('f-sl').value=n('cc-sl')||p('cc-sl');
   document.getElementById('f-tp').value=n('cc-tp')||p('cc-tp');
-  document.getElementById('f-leverage').value=n('cc-lev')||'1';
   if(pos>0) document.getElementById('f-size').value=pos.toFixed(2);
   if(rrStr&&rrStr!=='—') document.getElementById('f-rr').value=rrStr;
   calcFormRR();
@@ -1027,7 +1212,7 @@ function ccUseInTrade(){
 function renderStats(){
   const el=document.getElementById('stats-content');
   const closed=trades.filter(t=>t.exit);
-  if(!closed.length){ el.innerHTML='<div class="empty">Noch keine abgeschlossenen Trades.</div>'; return; }
+  if(!closed.length){ el.innerHTML='<div class="empty">'+t('no_closed')+'</div>'; return; }
 
   const pnls=closed.map(calcTradePnL).filter(v=>v!==null);
   const total=pnls.reduce((a,b)=>a+b,0);
@@ -1073,24 +1258,24 @@ function renderStats(){
   let html='';
 
   // Overview
-  html+=card('Übersicht','<div class="sg">'+
-    stat('Total P&L',(total>=0?'+':'')+total.toFixed(2)+' $',totalCol)+
-    stat('Win-Rate',wr+'%',wrCol)+
-    stat('Trades',closed.length,'var(--text)')+
-    stat('Avg Win','+'+avgW.toFixed(2)+' $','var(--accent)')+
-    stat('Avg Loss','-'+avgL.toFixed(2)+' $','var(--red)')+
-    stat('Bester','+'+best.toFixed(2)+' $','var(--accent)')+
-    stat('Schlechtester',worst.toFixed(2)+' $','var(--red)')+
-    stat('Wins',wins.length,'var(--accent)')+
-    stat('Losses',losses.length,'var(--red)')+
+  html+=card(t('stats_overview'),'<div class="sg">'+
+    stat(t('stat_total'),(total>=0?'+':'')+total.toFixed(2)+' $',totalCol)+
+    stat(t('stat_winrate'),wr+'%',wrCol)+
+    stat(t('stat_trades'),closed.length,'var(--text)')+
+    stat(t('stat_avg_win'),'+'+avgW.toFixed(2)+' $','var(--accent)')+
+    stat(t('stat_avg_loss'),'-'+avgL.toFixed(2)+' $','var(--red)')+
+    stat(t('stat_best'),'+'+best.toFixed(2)+' $','var(--accent)')+
+    stat(t('stat_worst'),worst.toFixed(2)+' $','var(--red)')+
+    stat(t('stat_wins'),wins.length,'var(--accent)')+
+    stat(t('stat_losses'),losses.length,'var(--red)')+
   '</div>');
 
   // Streaks
   const streakCol=lastWin?'var(--accent)':'var(--red)';
-  html+=card('Streaks','<div class="sg">'+
-    stat('Max Win-Streak',maxWin+'x','var(--accent)')+
-    stat('Max Loss-Streak',maxLoss+'x','var(--red)')+
-    stat('Aktuell',curStreak+'x '+(lastWin?'Wins':'Losses'),streakCol)+
+  html+=card(t('stats_streaks'),'<div class="sg">'+
+    stat(t('stat_max_win'),maxWin+'x','var(--accent)')+
+    stat(t('stat_max_loss'),maxLoss+'x','var(--red)')+
+    stat(t('stat_current'),curStreak+'x '+(lastWin?'Wins':'Losses'),streakCol)+
   '</div>');
 
   // By weekday
@@ -1112,7 +1297,7 @@ function renderStats(){
     '</div>';
   });
   dayHtml+='</div>';
-  html+=card('P&L nach Wochentag',dayHtml);
+  html+=card(t('stats_weekday'),dayHtml);
 
   // By symbol
   let symHtml='';
@@ -1125,11 +1310,121 @@ function renderStats(){
       '<div style="font-size:15px;font-weight:700;color:'+col+'">'+(v.pnl>=0?'+':'')+v.pnl.toFixed(2)+' $</div>'+
     '</div>';
   });
-  html+=card('Performance nach Symbol',symHtml);
+  html+=card(t('stats_symbol'),symHtml);
 
   el.innerHTML=html;
 }
 
+
+// ── IMPORT ────────────────────────────────────────────────────────────────────
+function showImportResult(msg, ok){
+  const el=document.getElementById('import-result');
+  if(!el) return;
+  el.style.display='block';
+  el.style.color=ok?'var(--accent)':'var(--red)';
+  el.style.background=ok?'var(--accent-bg)':'var(--red-bg)';
+  el.textContent=msg;
+  setTimeout(()=>el.style.display='none', 4000);
+}
+
+function parseCSV(text){
+  const lines=text.trim().split('\n');
+  const headers=lines[0].split(',').map(h=>h.trim().replace(/"/g,'').toLowerCase());
+  return lines.slice(1).map(line=>{
+    const vals=line.match(/(".*?"|[^,]+)/g)||[];
+    const obj={};
+    headers.forEach((h,i)=>{ obj[h]=(vals[i]||'').replace(/"/g,'').trim(); });
+    return obj;
+  }).filter(r=>Object.values(r).some(v=>v));
+}
+
+function importBybit(input){
+  const file=input.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{
+      const rows=parseCSV(e.target.result);
+      let added=0, skipped=0;
+      rows.forEach(r=>{
+        const symbol = r['symbol']||r['contract']||'';
+        const side   = (r['side']||'').toUpperCase();
+        const entry  = parseFloat(r['avg entry price']||r['entry price']||r['avgentryprice']||0);
+        const exit   = parseFloat(r['avg exit price']||r['exit price']||r['avgexitprice']||0);
+        const size   = parseFloat(r['closed size']||r['qty']||r['size']||0);
+        const dateRaw= r['updated time']||r['created time']||r['time']||'';
+        const date   = dateRaw?new Date(dateRaw).toISOString().slice(0,10):new Date().toISOString().slice(0,10);
+        if(!symbol||!entry||!exit){ skipped++; return; }
+        const direction=side==='BUY'||side==='LONG'?'LONG':'SHORT';
+        trades.push({
+          id: Date.now().toString()+Math.random().toString(36).slice(2),
+          date, symbol, direction,
+          entry, exit,
+          size: size*entry,
+          leverage:1, status:'closed',
+          notes:'Bybit Import',
+        });
+        added++;
+      });
+      save();
+      showImportResult('✓ '+added+' '+(lang==='de'?'Trades importiert':'trades imported')+(skipped?' ('+skipped+' skipped)':''), true);
+      input.value='';
+    } catch(err){ showImportResult((lang==='de'?'Fehler: ':'Error: ')+err.message, false); }
+  };
+  reader.readAsText(file);
+}
+
+function importBinance(input){
+  const file=input.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{
+      const rows=parseCSV(e.target.result);
+      let added=0, skipped=0;
+      rows.forEach(r=>{
+        const symbol = r['symbol']||r['pair']||'';
+        const side   = (r['side']||'').toUpperCase();
+        const entry  = parseFloat(r['price']||r['avg price']||r['average price']||0);
+        const qty    = parseFloat(r['qty']||r['quantity']||r['executed qty']||0);
+        const pnl    = parseFloat(r['realized profit']||r['realized pnl']||r['pnl']||0);
+        const dateRaw= r['time']||r['date']||'';
+        const date   = dateRaw?new Date(dateRaw).toISOString().slice(0,10):new Date().toISOString().slice(0,10);
+        if(!symbol||!entry){ skipped++; return; }
+        const direction=side==='BUY'||side==='LONG'?'LONG':'SHORT';
+        const exitPrice=pnl!==0?entry+(direction==='LONG'?1:-1)*(pnl/qty):entry;
+        trades.push({
+          id: Date.now().toString()+Math.random().toString(36).slice(2),
+          date, symbol, direction,
+          entry, exit:parseFloat(exitPrice.toFixed(6)),
+          size:qty*entry, leverage:1, status:'closed',
+          notes:'Binance Import',
+        });
+        added++;
+      });
+      save();
+      showImportResult('✓ '+added+' '+(lang==='de'?'Trades importiert':'trades imported')+(skipped?' ('+skipped+' skipped)':''), true);
+      input.value='';
+    } catch(err){ showImportResult((lang==='de'?'Fehler: ':'Error: ')+err.message, false); }
+  };
+  reader.readAsText(file);
+}
+
+function importJSON(input){
+  const file=input.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{
+      const data=JSON.parse(e.target.result);
+      if(!Array.isArray(data)) throw new Error(lang==='de'?'Ungültiges Format':'Invalid format');
+      const before=trades.length;
+      const existing=new Set(trades.map(t=>t.id));
+      data.forEach(t=>{ if(t.id&&!existing.has(t.id)) trades.push(t); });
+      save();
+      showImportResult('✓ '+(trades.length-before)+' '+(lang==='de'?'Trades wiederhergestellt':'trades restored'), true);
+      input.value='';
+    } catch(err){ showImportResult((lang==='de'?'Fehler: ':'Error: ')+err.message, false); }
+  };
+  reader.readAsText(file);
+}
 
 // ── DATA ──────────────────────────────────────────────────────────────────────
 function save(){
@@ -1157,7 +1452,7 @@ function exportJSON(){
 }
 
 function clearAll(){
-  if(!confirm('Alle Trades löschen? Diese Aktion kann nicht rückgängig gemacht werden.')) return;
+  if(!confirm(t('confirm_clear'))) return;
   trades=[];
   save();
   showView('dashboard');
@@ -1165,8 +1460,8 @@ function clearAll(){
 
 // ── INIT ──────────────────────────────────────────────────────────────────────
 applyTheme();
-document.getElementById('lang-btn').textContent=lang.toUpperCase();
 renderDashboard();
+applyLang();
 
 if('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(()=>{});
 </script>
