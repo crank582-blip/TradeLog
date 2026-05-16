@@ -81,6 +81,21 @@ h1{font-size:18px;font-weight:700;margin-bottom:16px}
 </style>
 </head>
 <body>
+<!-- SPLASH SCREEN -->
+<div id="splash" style="position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;transition:opacity .4s ease">
+  <div style="display:flex;align-items:center;gap:12px;animation:splashIn .5s ease forwards">
+    <span style="color:var(--accent);font-size:42px;line-height:1">▲</span>
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:28px;font-weight:700;letter-spacing:.12em">TRADE<span style="color:var(--accent)">LOG</span></div>
+  </div>
+</div>
+
+<style>
+@keyframes splashIn{
+  from{opacity:0;transform:scale(.9)}
+  to{opacity:1;transform:scale(1)}
+}
+</style>
+
 <!-- HEADER -->
 <div class="header">
   <span style="color:var(--accent);font-size:18px;margin-right:2px">▲</span>
@@ -261,7 +276,7 @@ h1{font-size:18px;font-weight:700;margin-bottom:16px}
     <div class="sec" data-i18n="sec_account">Konto</div>
     <div class="fg">
       <label class="fl" data-i18n="lbl_capital">Kontokapital (USDT)</label>
-      <input type="number" class="fi" id="cc-capital" placeholder="" step="any">
+      <input type="number" class="fi" id="cc-capital" placeholder="" step="any" onchange="ccSyncCapital()">
     </div>
     <div class="fg" style="margin-bottom:0">
       <label class="fl" data-i18n="lbl_risk">Risiko %</label>
@@ -567,6 +582,13 @@ function showView(v){
   if(v==='trades')    renderTradeList();
   if(v==='stats')     renderStats();
   if(v==='new'&&!editId){ resetForm(); }
+  if(v==='calc'){
+    const capEl=document.getElementById('cc-capital');
+    if(capEl&&!capEl.value){
+      const cur=portfolioManual||(portfolioStart?(portfolioStart+trades.filter(t=>t.exit).reduce((s,t)=>s+(calcTradePnL(t)||0),0)):null);
+      if(cur) capEl.value=cur.toFixed(2);
+    }
+  }
 }
 
 // ── PORTFOLIO ─────────────────────────────────────────────────────────────────
@@ -593,6 +615,9 @@ function savePortfolio(){
   if(cv>0){ portfolioManual=cv; localStorage.setItem('tl_portfolio_manual',portfolioManual); }
   document.getElementById('portfolio-edit').style.display='none';
   renderPortfolio();
+  // Sync to calculator
+  const capEl=document.getElementById('cc-capital');
+  if(capEl){ const cur=portfolioManual||(portfolioStart?(portfolioStart+trades.filter(t=>t.exit).reduce((s,t)=>s+(calcTradePnL(t)||0),0)):null); if(cur) capEl.value=cur.toFixed(2); }
 }
 
 function renderPortfolio(){
@@ -1045,6 +1070,17 @@ function ccSetDir(d){
   if(s){s.style.borderColor=d==='SHORT'?'var(--red)':'var(--border)';s.style.background=d==='SHORT'?'var(--red-bg)':'var(--card)';s.style.color=d==='SHORT'?'var(--red)':'var(--text4)';}
 }
 
+function ccSyncCapital(){
+  const val=parseFloat(document.getElementById('cc-capital')?.value);
+  if(!val||val<=0) return;
+  // Update portfolio start if not set yet
+  if(!portfolioStart){
+    portfolioStart=val;
+    localStorage.setItem('tl_portfolio_start', portfolioStart);
+    renderPortfolio();
+  }
+}
+
 function ccSetRisk(v){ const el=document.getElementById('cc-risk'); if(el) el.value=v; ccHighlightRisk(); }
 function ccHighlightRisk(){
   const v=parseFloat(document.getElementById('cc-risk')?.value)||0;
@@ -1465,6 +1501,12 @@ function clearAll(){
 applyTheme();
 renderDashboard();
 applyLang();
+
+// Hide splash after 1.5s
+setTimeout(()=>{
+  const splash=document.getElementById('splash');
+  if(splash){ splash.style.opacity='0'; setTimeout(()=>splash.remove(),400); }
+}, 1500);
 
 if('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(()=>{});
 </script>
