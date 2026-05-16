@@ -719,9 +719,11 @@ function filterPeriod(list){
 // ── P&L CALCULATION ───────────────────────────────────────────────────────────
 function calcTradePnL(t){
   if(!t.exit||!t.entry) return null;
-  const entry=parseFloat(t.entry), exit=parseFloat(t.exit), size=parseFloat(t.size)||100, lev=parseFloat(t.leverage)||1;
+  const entry=parseFloat(t.entry), exit=parseFloat(t.exit);
+  const size=parseFloat(t.size)||0;
+  if(!size) return null;
   const dir=t.direction==='LONG'?1:-1;
-  const coins=(size*lev)/entry;
+  const coins=size/entry;  // size is in USDT
   return dir*(exit-entry)*coins;
 }
 
@@ -1186,24 +1188,25 @@ function ccCalculate(){
 function ccUseInTrade(){
   const n=id=>document.getElementById(id)?.value||'';
   const p=id=>document.getElementById(id)?.placeholder||'';
-  const capital=parseFloat(n('cc-capital'))||0;
-  const riskPct=parseFloat(n('cc-risk'))||1;
 
-  // Get position size from result display
+  // Get coins from result display (shows "0.0375 Units")
   const posEl=document.getElementById('cc-pos');
-  const posStr=posEl?posEl.textContent.replace(' USDT','').trim():'';
-  const pos=parseFloat(posStr)||0;
+  const posStr=posEl?posEl.textContent.replace(' Units','').replace(' USDT','').trim():'';
+  const coins=parseFloat(posStr)||0;
 
   // Get RR from result display
   const rrEl=document.getElementById('cc-rr-disp');
   const rrStr=rrEl?rrEl.textContent.trim():'';
+
+  const entry=parseFloat(n('cc-entry')||p('cc-entry'))||0;
 
   showView('new');
   setDir(ccDir);
   document.getElementById('f-entry').value=n('cc-entry')||p('cc-entry');
   document.getElementById('f-sl').value=n('cc-sl')||p('cc-sl');
   document.getElementById('f-tp').value=n('cc-tp')||p('cc-tp');
-  if(pos>0) document.getElementById('f-size').value=pos.toFixed(2);
+  // Store coins in size field (size = coins * entry = USDT value)
+  if(coins>0&&entry>0) document.getElementById('f-size').value=(coins*entry).toFixed(2);
   if(rrStr&&rrStr!=='—') document.getElementById('f-rr').value=rrStr;
   calcFormRR();
 }
