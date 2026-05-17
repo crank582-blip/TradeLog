@@ -1204,7 +1204,7 @@ function ccCalculate(){
   const actualRPct  = (actualRisk/capital*100).toFixed(2);
 
   s('cc-pos',    actualCoins.toFixed(6)+' Units');
-  s('cc-units',  '');
+  s('cc-units',  '= '+pos.toFixed(2)+' USDT');
   s('cc-risk-usdt', '-'+actualRisk.toFixed(2)+' USDT');
   s('cc-risk-pct',   actualRPct+'% Kapital');
 
